@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC
+		"-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.example.kgsystem.util.DruidDataSourceFactory" alias="DRUID"></typeAlias>
+	</typeAliases>
+	<environments default="neo4j">
+		<environment id="neo4j">
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="DRUID">
+				<property name="driver" value="org.neo4j.jdbc.bolt.BoltDriver"/>
+				<property name="url" value="jdbc:neo4j:bolt://localhost:7687?nossl"/>
+				<property name="username" value="neo4j"/>
+				<property name="password" value="tsinghua2022"/>
+			</dataSource>
+		</environment>
+
+	</environments>
+	<!-- mybatis的mapper文件，每个xml配置文件对应一个接口 -->
+	<mappers>
+		<mapper resource="mapper/db2/UploadMapper.xml"></mapper>
+		<mapper resource="mapper/db2/EquipmentMapper.xml"></mapper>
+<!--		<mapper resource="mapper/db2/RelationMapper.xml"></mapper>-->
+		<mapper resource="mapper/db2/SituationMapper.xml"></mapper>
+		<mapper resource="mapper/db2/SolutionMapper.xml"></mapper>
+		<package name="com.example.kgsystem.mapper.neo4j"/>
+	</mappers>
+
+
+</configuration>

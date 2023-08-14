@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kgsystem.mapper.SolutionMapper">
+  <resultMap id="BaseResultMap" type="com.example.kgsystem.model.neo4j.SolutionDto">
+    <id column="reason" jdbcType="VARCHAR" property="reason" />
+    <id column="solution" jdbcType="VARCHAR" property="solution" />
+  </resultMap>
+  <select id="getSolution" parameterType="java.lang.String" resultMap="BaseResultMap">
+    match (m:Component)-[r1:located]-(p:Reason)-[r2:advice]-(n:Method)
+    <where>
+        m.name = #{componentName,jdbcType=CHAR}
+    </where>
+    return p.name as reason,n.name as solution
+  </select>
+</mapper>

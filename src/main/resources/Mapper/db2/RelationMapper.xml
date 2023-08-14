@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kgsystem.mapper.neo4j.RelationMapper">
+  <select id="getCooperateNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    match(n:Situation)-[r:hasproblem]-(m:Component)-[r1:located]-(p:Reason) ,r0=(n)-[]-(p)
+    <where>
+      m.name = #{componentName,jdbcType=CHAR}
+    </where>
+    return n.name as situation,p.name as reason
+  </select>
+</mapper>

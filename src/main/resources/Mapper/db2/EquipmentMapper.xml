@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kgsystem.mapper.EquipmentMapper">
+  <resultMap id="BaseResultMap" type="com.example.kgsystem.model.neo4j.EquipmentDto">
+    <id column="component" jdbcType="VARCHAR" property="component" />
+    <result column="situation" jdbcType="VARCHAR" property="situation" />
+    <result column="effect" jdbcType="VARCHAR" property="effect" />
+    <result column="detection" jdbcType="VARCHAR" property="detection" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="solution" jdbcType="VARCHAR" property="solution" />
+  </resultMap>
+  <select id="getEquipment" parameterType="java.lang.String" resultMap="BaseResultMap">
+    match (m:Component)-[r1:located]-(p:Reason)-[r2:advice]-(n:Method),(p)-[r4]-(q:Situation)-[r3:hasproblem]-(m)
+    <where>
+      m.name = #{componentName,jdbcType=CHAR}
+    </where>
+    optional match (q)-[r6]-(b:Effect)
+    optional match (q)-[r7]-(c:Detection)
+    return m.name as component,q.name as situation,p.name as reason,n.name as solution,b.name as effect,c.name as detection
+  </select>
+</mapper>

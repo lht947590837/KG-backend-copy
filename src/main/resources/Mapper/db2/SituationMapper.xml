@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kgsystem.mapper.SituationMapper">
+  <resultMap id="BaseResultMap" type="com.example.kgsystem.model.neo4j.SituationDto">
+    <id column="reason" jdbcType="VARCHAR" property="reason" />
+    <id column="situation" jdbcType="VARCHAR" property="situation" />
+  </resultMap>
+  <select id="getSituation" parameterType="java.lang.String" resultMap="BaseResultMap">
+    match(p:Point)-[r1:measured]-(n:Situation)-[r:hasproblem]-(m:Component)
+    <where>
+      m.name = #{componentName,jdbcType=CHAR}
+    </where>
+    return n.name as situation,p.name as point
+  </select>
+</mapper>
